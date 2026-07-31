@@ -39,8 +39,7 @@ function log(message, color = 'reset') {
 }
 
 async function getConnection() {
-  try {
-    // Usar DATABASE_URL se disponível (padrão do Manus)
+  try {// Usar DATABASE_URL definida nas variáveis de ambiente
     const dbUrl = process.env.DATABASE_URL;
     
     if (!dbUrl) {
