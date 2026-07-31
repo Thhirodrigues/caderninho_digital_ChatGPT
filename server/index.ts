@@ -277,7 +277,9 @@ app.post('/api/auth/request-reset', async (req, res) => {
 
     // Enviar e-mail com link de redefinição
     const { enviarEmail } = await import('./emailService.js');
-    const resetUrl = `${req.headers.origin || 'https://osbrothersadega.manus.space'}/redefinir-senha?token=${token}`;
+const appUrl = process.env.APP_URL || req.headers.origin || 'http://localhost:5173';
+
+const resetUrl = `${appUrl}/redefinir-senha?token=${token}`;
     await enviarEmail({
       para: email,
       assunto: 'Redefinição de senha - Os Brothers Adega',
