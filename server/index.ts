@@ -8,6 +8,7 @@ import express from 'express';
 import { createServer } from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { normalizarTelefone } from "./utils/phone";
 import { pool, initializeDatabase } from "./config/database.js";
 import bcrypt from 'bcryptjs';
 import { initializeEmailService, notificarNovoLancamento, notificarPagamentoCliente } from './emailService.js';
