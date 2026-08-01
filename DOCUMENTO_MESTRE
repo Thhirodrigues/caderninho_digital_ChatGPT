@@ -487,3 +487,25 @@ FASE G
 
 FASE H
 ⬜ Certificação Final
+
+-----------
+
+SPRINT 1
+Backend Refactoring
+
+✔ Auditoria estrutural validada no repositório atual.
+
+R006 confirmado:
+Existem quatro entrypoints do servidor.
+
+R007 confirmado:
+Bootstrap apresenta responsabilidades distribuídas entre arquivos redundantes.
+
+Decisão:
+O projeto passará a possuir um único entrypoint oficial (server/index.ts), com bootstrap enxuto e responsabilidades desacopladas.
+
+Próximo marco:
+Consolidação dos quatro index.ts e eliminação definitiva da duplicidade antes da continuidade da Sprint 1.
+
+-------
+
