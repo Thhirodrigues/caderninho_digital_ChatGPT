@@ -509,3 +509,118 @@ Consolidação dos quatro index.ts e eliminação definitiva da duplicidade ante
 
 -------
 
+Perfeito. Essa decisão muda a estratégia da refatoração, e considero que é a correta.
+
+Nova diretriz arquitetural da Sprint 1:
+
+> Não haverá migração de legado. Haverá consolidação.
+
+Todo arquivo que não tiver função comprovadamente ativa no fluxo atual será removido do repositório.
+
+
+
+Isso evita que código obsoleto continue sendo carregado para as próximas Sprints.
+
+Próximas alterações
+
+Sprint 1.2 — Limpeza estrutural
+
+Inventário de todos os arquivos do backend:
+
+Classificar como:
+
+✅ Ativo
+
+🟡 Refatorar
+
+🔴 Remover
+
+
+
+Nada ficará na categoria "talvez".
+
+
+---
+
+Sprint 1.3 — Eliminação de duplicidades
+
+Além dos index*.ts, serão auditados:
+
+Services duplicados
+
+Routers antigos
+
+Controllers sem uso
+
+Middlewares obsoletos
+
+Helpers duplicados
+
+Configurações antigas
+
+Scripts temporários
+
+Backups dentro do repositório
+
+
+Todo código morto será excluído.
+
+
+---
+
+Sprint 1.4 — Estrutura definitiva
+
+Ao final da Sprint, o backend deverá possuir apenas uma estrutura como:
+
+server/
+ ├── index.ts
+ ├── app.ts
+ ├── config/
+ ├── routes/
+ ├── controllers/
+ ├── services/
+ ├── repositories/
+ ├── middleware/
+ ├── websocket/
+ ├── realtime/
+ ├── utils/
+ └── types/
+
+Sem arquivos _backup, _novo, _old, _memory, _temp ou equivalentes.
+
+
+---
+
+Sprint 1.5 — Validação de dependências
+
+Antes de remover qualquer arquivo, será verificado:
+
+imports existentes;
+
+referências dinâmicas;
+
+uso em scripts (package.json);
+
+uso em workflows;
+
+uso em build;
+
+uso em testes.
+
+
+Um arquivo só será removido quando houver evidência de que não participa mais do fluxo da aplicação.
+
+
+---
+
+Atualização do DOCUMENTO_MESTRE
+
+Registrar:
+
+Nova diretriz aprovada: o repositório passará por uma limpeza completa durante a refatoração. Arquivos legados, duplicados, experimentais ou sem utilização comprovada serão removidos, mantendo apenas o código efetivamente utilizado pela aplicação. O objetivo é entregar uma base única, limpa, rastreável e preparada para a evolução das próximas Sprints.
+
+
+Próximo passo: iniciar a auditoria completa de todos os diretórios (server, client, shared, scripts, docs, public e configurações do projeto) para produzir a lista definitiva de arquivos a manter, refatorar ou excluir antes de iniciar as alterações estruturais.
+
+----------
+
