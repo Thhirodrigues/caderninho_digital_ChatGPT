@@ -8,7 +8,7 @@ import express from 'express';
 import { createServer } from 'http';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import mysql from 'mysql2/promise';
+import { pool, initializeDatabase } from "./config/database.js";
 import bcrypt from 'bcryptjs';
 import { initializeEmailService, notificarNovoLancamento, notificarPagamentoCliente } from './emailService.js';
 import { bannersRouter } from './banners.js';
@@ -29,43 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 // ============================================================================
 
 // Limpar DATABASE_URL removendo parâmetro SSL inválido
-const rawDatabaseUrl = process.env.DATABASE_URL || 'mysql://root:password@localhost:3306/caderninho';
-const cleanDatabaseUrl = rawDatabaseUrl.replace(/\?ssl=.*$/, ''); // Remove ?ssl={...} do final
 
-const pool = mysql.createPool({
-  uri: cleanDatabaseUrl,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  enableKeepAlive: true,
-  // TiDB Cloud requer SSL obrigatório com certificado válido
-  ssl: ({
-    rejectUnauthorized: true,
-    minVersion: 'TLSv1.2'
-  } as any),
-} as any);
-
-console.log(`[DB] Conectando a: ${cleanDatabaseUrl.replace(/:[^@]*@/, ':***@')}`);
-
-// Listeners SSE
 const sseClients = new Set<any>();
 
 // ============================================================================
 // INICIALIZAR BANCO DE DADOS
 // ============================================================================
-
-async function initializeDatabase() {
-  try {
-    console.log('[DB] Tentando conectar ao banco de dados...');
-    const connection = await pool.getConnection();
-    console.log('[DB] ✅ Conexão estabelecida com sucesso!');
-    connection.release();
-    console.log('[DB] ✅ Banco de dados pronto (usando schema existente)');
-  } catch (error: any) {
-    console.error('[DB] ❌ Erro ao inicializar banco:', error?.message || error);
-    console.error('[DB] Detalhes:', error);
-  }
-}
 
 // ============================================================================
 // FUNÇÃO PARA NOTIFICAR CLIENTES SSE
